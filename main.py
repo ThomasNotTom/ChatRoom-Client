@@ -96,7 +96,7 @@ def create_client(bot):
     sending_events_thread.start()
 
 
-# for x in range(0, 20):
+# for x in range(0, 10):
 #     thread = threading.Thread(target=create_client, args=(True,))
 #     thread.start()
 #     print(f"Bot {x} has been created")
