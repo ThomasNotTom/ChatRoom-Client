@@ -7,7 +7,8 @@ import threading
 Running = True
 Connected = False
 
-url = "https://thomas-chatroom-server.herokuapp.com/"
+#url = "https://thomas-chatroom-server.herokuapp.com/"
+url = "http://localhost:8000/"
 
 words_txt = open("ukenglish.txt", "r")
 words = words_txt.read().split()
@@ -25,18 +26,23 @@ def create_client(bot):
     else:
         print("What is your username?")
         username = input()
+        while requests.post(url + "is_name", json={"name": username}).text == "exists":
+            print("Username is already in use")
+            username = input()
+        print("Success")
+
 
     def recieving_events():
         global Running, Connected
         while Running:
             try:
-                if Connected == False:
-                    print("Connected to server")
-                    Connected = True
                 connection = requests.post(url + "maintain_connection", json={"username": username})
                 if connection.status_code != 200:
                     print("Server failed")
                     Running = False
+                if Connected == False:
+                    print("Connected to server")
+                    Connected = True
 
                 data = connection.json()["data"]
                 if not bot:
@@ -44,13 +50,18 @@ def create_client(bot):
                         if d["event_type"] == "new_msg":
                             print(f"{d['content']['username']} : {d['content']['message']}")
 
-                        elif d["event_type"] == "new_connection":
+                        elif d["event_type"] == "user_join":
                             print(f"{d['content']['username']} has joined the room")
 
-                        elif d["event_type"] == "lost_connection":
+                        elif d["event_type"] == "user_left":
                             print(f"{d['content']['username']} has left the room")
-                    if not data == []:
-                        print("-----------")
+
+                        elif d["event_type"] == "user_disconnect":
+                            print(f"{d['content']['username']} has been disconnected from the room")
+
+                        elif d["event_type"] == "user_reconnect":
+                            print(f"{d['content']['username']} has been reconnected to the room")
+
 
             except:
                 Connected = False
@@ -62,7 +73,7 @@ def create_client(bot):
         while Running:
             if bot:
                 msg = words[random.randint(0, words_length)]
-                time.sleep(10)
+                time.sleep(random.randint(0, 10))
                 sent_message = requests.post(url + "new_msg", json={"username": username, "message": msg})
             else:
                 msg = input()
@@ -74,12 +85,11 @@ def create_client(bot):
     sending_events_thread = threading.Thread(target=sending_events)
     sending_events_thread.start()
 
-threads = []
 
-for x in range(0, 10):
-    threads.append(threading.Thread(target=create_client, args=(True,)))
-    threads[x].start()
-    print(f"Bot {x} has been created")
+# for x in range(0, 20):
+#     thread = threading.Thread(target=create_client, args=(True,))
+#     thread.start()
+#     print(f"Bot {x} has been created")
 
 create_client(False)
 

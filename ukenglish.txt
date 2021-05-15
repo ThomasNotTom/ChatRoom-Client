@@ -29727,10 +29727,6 @@ fu
 fuchs
 fuchsia
 fuchsias
-fuck
-fucked
-fucking
-fucks
 fuddle
 fuddled
 fuddles
@@ -36565,9 +36561,6 @@ incertae
 incertitude
 incessant
 incessantly
-incest
-incestuous
-incestuously
 inch
 inched
 inches
@@ -48216,10 +48209,6 @@ niftiest
 niftiness
 nifty
 nigel
-niger
-nigeria
-nigerian
-nigerians
 niggard
 niggardliness
 niggardly
@@ -58347,9 +58336,6 @@ rapier
 rapiers
 rapine
 rapines
-raping
-rapist
-rapists
 rapped
 rappel
 rappelled
