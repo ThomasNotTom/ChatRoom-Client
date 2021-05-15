@@ -7,8 +7,18 @@ import threading
 Running = True
 Connected = False
 
-#url = "https://thomas-chatroom-server.herokuapp.com/"
-url = "http://localhost:8000/"
+url = ""
+
+print("Are you running on the server(1) or a localhost(2)?")
+url_choser = input(">>> ")
+while True:
+    if url_choser == "1":
+        url = "https://thomas-chatroom-server.herokuapp.com/"
+        break
+    elif url_choser == "2":
+        url = "http://localhost:8000/"
+        break
+    url_choser = input(">>> ")
 
 words_txt = open("ukenglish.txt", "r")
 words = words_txt.read().split()
