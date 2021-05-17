@@ -1,7 +1,12 @@
 import random
 import time
+import os
 
-import requests
+try:
+    import requests
+except:
+    os.system("pip install requests")
+
 import threading
 
 Running = True
